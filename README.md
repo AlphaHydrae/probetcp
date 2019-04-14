@@ -11,6 +11,9 @@ Probe TCP endpoints.
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+![version](https://img.shields.io/badge/Version-v1.0.0-blue.svg)
+[![license](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
+
 ## Installation
 
 * **Linux**
