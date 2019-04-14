@@ -2,6 +2,37 @@
 
 Probe TCP endpoints.
 
+## Installation
+
+* **Linux**
+
+  ```
+  wget -O /usr/local/bin/probetcp \
+    https://github.com/AlphaHydrae/probetcp/releases/download/v1.0.0/probetcp_v1.0.0_linux_amd64 && \
+    chmod +x /usr/local/bin/probetcp
+  ```
+* **Linux (arm64)**
+
+  ```
+  wget -O /usr/local/bin/probetcp \
+    https://github.com/AlphaHydrae/probetcp/releases/download/v1.0.0/probetcp_v1.0.0_linux_arm64 && \
+    chmod +x /usr/local/bin/probetcp
+  ```
+* **macOS**
+
+  ```
+  wget -O /usr/local/bin/probetcp \
+    https://github.com/AlphaHydrae/probetcp/releases/download/v1.0.0/probetcp_v1.0.0_darwin_amd64 && \
+    chmod +x /usr/local/bin/probetcp
+  ```
+* **Windows**
+
+  ```
+  wget -O /usr/local/bin/probetcp \
+    https://github.com/AlphaHydrae/probetcp/releases/download/v1.0.0/probetcp_v1.0.0_windows_amd64 && \
+    chmod +x /usr/local/bin/probetcp
+  ```
+
 ## Usage
 
 ```
