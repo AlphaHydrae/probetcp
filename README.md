@@ -11,7 +11,7 @@ Probe TCP endpoints.
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-![version](https://img.shields.io/badge/Version-v1.0.0-blue.svg)
+![version](https://img.shields.io/badge/Version-v1.0.1-blue.svg)
 [![license](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
 
 ## Installation
@@ -20,28 +20,28 @@ Probe TCP endpoints.
 
   ```
   wget -O /usr/local/bin/probetcp \
-    https://github.com/AlphaHydrae/probetcp/releases/download/v1.0.0/probetcp_v1.0.0_linux_amd64 && \
+    https://github.com/AlphaHydrae/probetcp/releases/download/v1.0.1/probetcp_v1.0.1_linux_amd64 && \
     chmod +x /usr/local/bin/probetcp
   ```
 * **Linux (arm64)**
 
   ```
   wget -O /usr/local/bin/probetcp \
-    https://github.com/AlphaHydrae/probetcp/releases/download/v1.0.0/probetcp_v1.0.0_linux_arm64 && \
+    https://github.com/AlphaHydrae/probetcp/releases/download/v1.0.1/probetcp_v1.0.1_linux_arm64 && \
     chmod +x /usr/local/bin/probetcp
   ```
 * **macOS**
 
   ```
   wget -O /usr/local/bin/probetcp \
-    https://github.com/AlphaHydrae/probetcp/releases/download/v1.0.0/probetcp_v1.0.0_darwin_amd64 && \
+    https://github.com/AlphaHydrae/probetcp/releases/download/v1.0.1/probetcp_v1.0.1_darwin_amd64 && \
     chmod +x /usr/local/bin/probetcp
   ```
 * **Windows**
 
   ```
   wget -O /usr/local/bin/probetcp \
-    https://github.com/AlphaHydrae/probetcp/releases/download/v1.0.0/probetcp_v1.0.0_windows_amd64 && \
+    https://github.com/AlphaHydrae/probetcp/releases/download/v1.0.1/probetcp_v1.0.1_windows_amd64 && \
     chmod +x /usr/local/bin/probetcp
   ```
 
