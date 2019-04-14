@@ -61,5 +61,5 @@ Options:
 
 Examples:
   Probe a MySQL database over TCP (10 attempts every 2 seconds):
-    probecli -r 9 -i 2000 tcp://localhost:3306
+    probetcp -r 9 -i 2000 tcp://localhost:3306
 ```
