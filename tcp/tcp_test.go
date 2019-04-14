@@ -1,4 +1,4 @@
-package main
+package tcp
 
 import (
 	"net"
@@ -22,11 +22,11 @@ func TestTcp(t *testing.T) {
 		}
 	}()
 
-	config := &TCPProbeConfig{}
+	config := &ProbeConfig{}
 	config.Address = "localhost:8081"
 	config.Timeout = time.Duration(1e9)
 
-	result, err := probeTCPEndpoint(config)
+	result, err := ProbeTCPEndpoint(config)
 	if err != nil {
 		t.Fatal(err)
 	}

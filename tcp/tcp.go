@@ -1,17 +1,21 @@
-package main
+// Package tcp provides the ProbeTCPEndpoint function to test if a TCP endpoint
+// can be reached.
+package tcp
 
 import (
 	"net"
 	"time"
 )
 
-func probeTCPEndpoint(config *TCPProbeConfig) (*TCPProbeResult, error) {
+// ProbeTCPEndpoint tries to reach the configured TCP endpoint, returning either
+// a ProbeResult if it worked, or an error if the endpoint could not be reached.
+func ProbeTCPEndpoint(config *ProbeConfig) (*ProbeResult, error) {
 
 	attempts := 0
 	start := time.Now()
 
 	var previousError *error
-	var result *TCPProbeResult
+	var result *ProbeResult
 
 	for config.Retries < 0 || attempts <= config.Retries {
 
@@ -25,7 +29,7 @@ func probeTCPEndpoint(config *TCPProbeConfig) (*TCPProbeResult, error) {
 
 		attempts++
 
-		result = &TCPProbeResult{}
+		result = &ProbeResult{}
 
 		conn, err := net.DialTimeout("tcp", config.Address, config.Timeout)
 		if err != nil {
@@ -50,9 +54,9 @@ func probeTCPEndpoint(config *TCPProbeConfig) (*TCPProbeResult, error) {
 	return result, nil
 }
 
-// TCPProbeConfig is the configuration of a TCP probe. It is used to specify the
+// ProbeConfig is the configuration of a TCP probe. It is used to specify the
 // TCP endpoint to call and can be used to set the retry behavior.
-type TCPProbeConfig struct {
+type ProbeConfig struct {
 
 	// Address is the TCP address to call ("host:port", e.g. "localhost:5432",
 	// "golang.org:http").
@@ -70,7 +74,7 @@ type TCPProbeConfig struct {
 	// of the probe. The third err argument is nil if all goes well, but in the
 	// case of a retry, it may contain the error that caused the previous call to
 	// fail.
-	OnAttempt func(attempt int, config *TCPProbeConfig, err *error)
+	OnAttempt func(attempt int, config *ProbeConfig, err *error)
 
 	// Retries indicates how many times the TCP call should be retried if it
 	// fails. If the first call(s) fail but one of the retries succeed, the probe
@@ -83,9 +87,9 @@ type TCPProbeConfig struct {
 	Timeout time.Duration
 }
 
-// TCPProbeResult is the result of a TCP probe.  Its Success property indicates
+// ProbeResult is the result of a TCP probe.  Its Success property indicates
 // whether the probe was successful.
-type TCPProbeResult struct {
+type ProbeResult struct {
 
 	// Attempts indicates how many TCP calls were made. It will be 1 by default
 	// but may be more if you specified Retries and some calls failed.

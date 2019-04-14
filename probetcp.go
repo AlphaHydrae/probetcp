@@ -1,3 +1,4 @@
+// The probetcp command checks whether a TCP endpoint can be reached.
 package main
 
 import (
@@ -6,6 +7,7 @@ import (
 	"regexp"
 	"time"
 
+	"github.com/alphahydrae/probetcp/tcp"
 	"github.com/fatih/color"
 	flag "github.com/spf13/pflag"
 )
@@ -62,26 +64,26 @@ func main() {
 
 	tcpRegexp := regexp.MustCompile(tcpTargetRegexp)
 
-	config := &TCPProbeConfig{}
+	config := &tcp.ProbeConfig{}
 	config.Address = tcpRegexp.ReplaceAllString(target, "$1")
 	config.Interval = time.Duration(interval * 1e6)
 	config.Retries = retries
 	config.Timeout = time.Duration(timeout * 1e6)
 
-	config.OnAttempt = func(attempt int, config *TCPProbeConfig, _ *error) {
-		if config.Retries != 0 && !quiet {
-			fmt.Printf("Probing %s (%d)...\n", config.Address, attempt+1)
+	config.OnAttempt = func(attempt int, config *tcp.ProbeConfig, _ *error) {
+		if attempt != 0 && !quiet {
+			fmt.Fprintf(os.Stderr, "Waiting for %s (%d)...\n", config.Address, attempt)
 		}
 	}
 
-	result, err := probeTCPEndpoint(config)
+	result, err := tcp.ProbeTCPEndpoint(config)
 	if err != nil {
 		fail(quiet, "probe error: %s", err)
 	} else if !result.Success {
-		fail(quiet, "Probe failed after %fs", result.Duration.Seconds())
+		fail(quiet, "could not probe \"%s\" after %fs", config.Address, result.Duration.Seconds())
 	}
 
-	succeed(quiet, "Probe succeeded after %fs", result.Duration.Seconds())
+	succeed(quiet, "Probed \"%s\" in %fs", config.Address, result.Duration.Seconds())
 }
 
 func fail(quiet bool, format string, values ...interface{}) {
@@ -94,6 +96,6 @@ func fail(quiet bool, format string, values ...interface{}) {
 
 func succeed(quiet bool, format string, values ...interface{}) {
 	if !quiet {
-		fmt.Printf(color.GreenString(format+"\n", values...))
+		fmt.Fprintf(os.Stderr, color.GreenString(format+"\n", values...))
 	}
 }
