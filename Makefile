@@ -1,6 +1,12 @@
 RELEASE ?= $(shell git describe --tags || echo -n)
 SHELL := /usr/bin/env bash
 
+test:
+	go test -v ./...
+
+install:
+	dep ensure
+
 build:
 	test -n "${RELEASE}" && \
 	rm -fr release/${RELEASE} && \
@@ -16,6 +22,3 @@ build:
 
 doctoc:
 	command -v doctoc &>/dev/null && doctoc README.md || { >&2 echo "Error: install doctoc with \`npm install -g doctoc\`"; exit 1; }
-
-test:
-	go test -v ./tcp
