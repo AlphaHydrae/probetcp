@@ -6,7 +6,7 @@ go:
   - "1.x"
 
 before_install:
-  - apt-get install go-dep
+  - sudo apt-get install go-dep
 
 install:
   - make install
