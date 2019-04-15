@@ -9,7 +9,7 @@ os: ubuntu
 dist: xenial
 
 before_install:
-  - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sudo sh
+  - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
 
 install:
   - make install
