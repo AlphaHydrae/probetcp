@@ -6,11 +6,10 @@ go:
   - "1.x"
 
 os: ubuntu
-dist: bionic
+dist: xenial
 
 before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install go-dep
+  - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sudo sh
 
 install:
   - make install
