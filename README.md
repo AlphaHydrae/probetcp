@@ -6,13 +6,39 @@ Probe TCP endpoints.
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Installation](#installation)
 - [Usage](#usage)
+- [Installation](#installation)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ![version](https://img.shields.io/badge/Version-v1.0.1-blue.svg)
+[![build status](https://travis-ci.org/AlphaHydrae/probetcp.svg?branch=master)](https://travis-ci.org/AlphaHydrae/probetcp)
 [![license](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
+
+
+
+## Usage
+
+```
+probetcp probes TCP endpoints.
+
+Usage:
+  probetcp [OPTION...] TARGET
+
+Options:
+  -i, --interval int   Time to wait between probe retries in milliseconds (default 1000)
+  -q, --quiet          Do not print anything (default false)
+  -r, --retries int    Number of times to retry to probe the target if it fails (default 0)
+  -t, --timeout int    TCP connection timeout in milliseconds (default 60000)
+
+Examples:
+  Probe a website over TCP:
+    probetcp google.com:80
+  Probe a MySQL database over TCP (10 attempts every 2 seconds):
+    probetcp -r 9 -i 2000 localhost:3306
+```
+
+
 
 ## Installation
 
@@ -45,21 +71,6 @@ Probe TCP endpoints.
     chmod +x /usr/local/bin/probetcp
   ```
 
-## Usage
 
-```
-probetcp probes TCP endpoints.
 
-Usage:
-  probetcp [OPTION...] TARGET
-
-Options:
-  -i, --interval int   Time to wait between probe retries in milliseconds (default 1000)
-  -q, --quiet          Do not print anything (default false)
-  -r, --retries int    Number of times to retry to probe the target if it fails (default 0)
-  -t, --timeout int    TCP connection timeout in milliseconds (default 60000)
-
-Examples:
-  Probe a MySQL database over TCP (10 attempts every 2 seconds):
-    probetcp -r 9 -i 2000 tcp://localhost:3306
-```
+[go]: https://golang.org

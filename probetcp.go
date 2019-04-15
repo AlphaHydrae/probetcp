@@ -22,6 +22,8 @@ Options:
 
 const usageFooter = `
 Examples:
+  Probe a website over TCP:
+    probetcp google.com:80
   Probe a MySQL database over TCP (10 attempts every 2 seconds):
     probetcp -r 9 -i 2000 tcp://localhost:3306
 `
