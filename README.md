@@ -8,6 +8,7 @@ Probe TCP endpoints.
 
 - [Usage](#usage)
 - [Installation](#installation)
+  - [Download binary](#download-binary)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -42,6 +43,14 @@ Examples:
 
 ## Installation
 
+With [Homebrew][brew]:
+
+```
+brew install alphahydrae/tools/probetcp
+```
+
+### Download binary
+
 * **Linux**
 
   ```
@@ -73,4 +82,5 @@ Examples:
 
 
 
+[brew]: https://brew.sh/
 [go]: https://golang.org
