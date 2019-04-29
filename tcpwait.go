@@ -31,7 +31,7 @@ Examples:
   Wait for multiple endpoints:
     tcpwait github.com:22 github.com:80 github.com:443
   Execute a command after an endpoint is reached:
-    tcpwait db.example.com:5432 -- pg_dump -H db.example.com -f dump.sql example
+    tcpwait db.example.com:5432 -- rails server
 `
 
 const tcpTargetRegexp = "^(?:tcp:\\/\\/)?(.+)$"

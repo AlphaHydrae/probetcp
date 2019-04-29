@@ -9,6 +9,8 @@ Wait for TCP endpoints to be reachable (e.g. wait for a database in a Docker con
 - [Usage](#usage)
 - [Installation](#installation)
   - [Download binary](#download-binary)
+- [Executing a command after waiting](#executing-a-command-after-waiting)
+- [Exit codes](#exit-codes)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -40,7 +42,7 @@ Examples:
   Wait for multiple endpoints:
     tcpwait github.com:22 github.com:80 github.com:443
   Execute a command after an endpoint is reached:
-    tcpwait db.example.com:5432 -- pg_dump -H db.example.com -f dump.sql example
+    tcpwait db.example.com:5432 -- rails server
 ```
 
 
@@ -93,6 +95,22 @@ brew install alphahydrae/tools/tcpwait
 
 
 
+## Executing a command after waiting
+
+All arguments after the terminator (`--`) will be interpreted as a command to
+execute after all the TCP endpoints have been reached.
+
+This can be used to conditionally execute a command as soon as a service, such
+as a database, is reachable. For example, the following command could be used to
+run a Ruby on Rails application as soon as the database server can be reached:
+
+    tcpwait db.example.com:5432 -- rails server
+
+Note that the command is executed with [execve] and replaces **tcpwait**'s
+process.
+
+
+
 ## Exit codes
 
 **tcpwait** may exit with the following status codes:
@@ -106,7 +124,16 @@ Code | Description
 `10` | The command to execute (provided after `--`) could not be found in the `$PATH`.
 `11` | An unrecoverable error occurred while attempting to execute the command.
 
+> Note that if a command to execute is specified (after `--`), it is executed
+> with [execve], meaning that the **tcpwait** process is replaced by the
+> command's.
+>
+> In this case, the exit code returned will be that of the executed command, not
+> **tcpwait**'s. Look in the command's documentation for the meaning of its exit
+> codes.
+
 
 
 [brew]: https://brew.sh/
+[execve]: https://linux.die.net/man/2/execve
 [go]: https://golang.org
