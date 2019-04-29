@@ -1,6 +1,6 @@
 # tcpwait
 
-Wait for TCP endpoints to respond (e.g. wait for a database in a Docker container).
+Wait for TCP endpoints to be reachable (e.g. wait for a database in a Docker container).
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
