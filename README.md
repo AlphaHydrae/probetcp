@@ -24,7 +24,7 @@ Wait for TCP endpoints to be reachable (e.g. wait for a database in a Docker con
 tcpwait waits for TCP endpoints to be reachable.
 
 Usage:
-  tcpwait [OPTION...] ENDPOINT
+  tcpwait [OPTION...] ENDPOINT...
 
 Options:
   -i, --interval int   Time to wait between retries in milliseconds (default 1000)
@@ -37,6 +37,8 @@ Examples:
     tcpwait google.com:80
   Wait for a MySQL database (10 attempts every 2 seconds):
     tcpwait -r 9 -i 2000 tcp://localhost:3306
+  Wait for multiple endpoints:
+    tcpwait github.com:22 github.com:80 github.com:443
 ```
 
 
