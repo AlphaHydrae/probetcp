@@ -4,7 +4,9 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/exec"
 	"regexp"
+	"syscall"
 	"time"
 
 	"github.com/alphahydrae/tcpwait/tcp"
@@ -15,7 +17,7 @@ import (
 const usageHeader = `%s waits for TCP endpoints to be reachable.
 
 Usage:
-  %s [OPTION...] ENDPOINT...
+  %s [OPTION...] ENDPOINT... [--] [EXEC...]
 
 Options:
 `
@@ -28,6 +30,8 @@ Examples:
     tcpwait -r 9 -i 2000 tcp://localhost:3306
   Wait for multiple endpoints:
     tcpwait github.com:22 github.com:80 github.com:443
+  Execute a command after an endpoint is reached:
+    tcpwait db.example.com:5432 -- pg_dump -H db.example.com -f dump.sql example
 `
 
 const tcpTargetRegexp = "^(?:tcp:\\/\\/)?(.+)$"
@@ -55,20 +59,47 @@ func main() {
 	flag.Parse()
 
 	if interval < 0 {
-		fail(quiet, "the \"interval\" option must be greater than or equal to zero")
+		fail(1, quiet, "the \"interval\" option must be greater than or equal to zero")
 	} else if retries < 0 {
-		fail(quiet, "the \"retries\" option must be greater than or equal to zero")
+		fail(1, quiet, "the \"retries\" option must be greater than or equal to zero")
 	} else if timeout <= 0 {
-		fail(quiet, "the \"timeout\" option must be greater than zero")
-	} else if flag.Arg(0) == "" {
-		fail(quiet, "an endpoint to wait for must be given as an argument (e.g. \"tcp://localhost:3306\")")
+		fail(1, quiet, "the \"timeout\" option must be greater than zero")
+	}
+
+	terminator := -1
+	for i := 0; i < len(os.Args); i++ {
+		if os.Args[i] == "--" {
+			terminator = i
+			break
+		}
+	}
+
+	var endpoints []string
+	var execCommand string
+	var execArgs []string
+	if terminator >= 0 && terminator < len(os.Args)-1 {
+		endpoints = flag.Args()[0 : len(flag.Args())-(len(os.Args)-terminator-1)]
+
+		var err error
+		execCommand, err = exec.LookPath(os.Args[terminator+1])
+		if err != nil {
+			fail(10, quiet, "could not find command \"%s\"", os.Args[terminator+1])
+		}
+
+		execArgs = append([]string{execCommand}, os.Args[terminator+2:len(os.Args)]...)
+	} else {
+		endpoints = flag.Args()
+	}
+
+	if len(endpoints) == 0 || endpoints[0] == "" {
+		fail(1, quiet, "an endpoint to wait for must be given as an argument (e.g. \"tcp://localhost:3306\")")
 	}
 
 	ch := make(chan *waitResult)
 	tcpRegexp := regexp.MustCompile(tcpTargetRegexp)
 
-	for i := 0; i < flag.NArg(); i++ {
-		endpoint := flag.Arg(i)
+	for i := 0; i < len(endpoints); i++ {
+		endpoint := endpoints[i]
 
 		config := &tcp.WaitConfig{}
 		config.Address = tcpRegexp.ReplaceAllString(endpoint, "$1")
@@ -85,14 +116,21 @@ func main() {
 		go wait(config, ch)
 	}
 
-	for i := 0; i < flag.NArg(); i++ {
+	for i := 0; i < len(endpoints); i++ {
 		result := <-ch
 		if result.error != nil {
-			fail(quiet, "tcpwait error: %s", result.error)
+			fail(2, quiet, "tcpwait error: %s", result.error)
 		} else if !result.result.Success {
-			fail(quiet, "could not reach \"%s\" after %fs", result.config.Address, result.result.Duration.Seconds())
+			fail(3, quiet, "could not reach \"%s\" after %fs", result.config.Address, result.result.Duration.Seconds())
 		} else {
 			succeed(quiet, "Reached \"%s\" in %fs", result.config.Address, result.result.Duration.Seconds())
+		}
+	}
+
+	if execCommand != "" {
+		err := syscall.Exec(execCommand, execArgs, os.Environ())
+		if err != nil {
+			fail(11, quiet, "could not execute command \"%s\" with arguments %s", execCommand, execArgs)
 		}
 	}
 }
@@ -108,12 +146,12 @@ func wait(config *tcp.WaitConfig, ch chan *waitResult) {
 	ch <- chResult
 }
 
-func fail(quiet bool, format string, values ...interface{}) {
+func fail(code int, quiet bool, format string, values ...interface{}) {
 	if !quiet {
 		fmt.Fprintf(os.Stderr, color.RedString("Error: "+format+"\n"), values...)
 	}
 
-	os.Exit(1)
+	os.Exit(code)
 }
 
 func succeed(quiet bool, format string, values ...interface{}) {
