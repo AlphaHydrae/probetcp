@@ -12,7 +12,7 @@ Wait for TCP endpoints to be reachable (e.g. wait for a database in a Docker con
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-![version](https://img.shields.io/badge/Version-v1.0.2-blue.svg)
+![version](https://img.shields.io/badge/Version-v2.0.0-blue.svg)
 [![build status](https://travis-ci.org/AlphaHydrae/tcpwait.svg?branch=master)](https://travis-ci.org/AlphaHydrae/tcpwait)
 [![license](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
 
@@ -55,28 +55,28 @@ brew install alphahydrae/tools/tcpwait
 
   ```
   wget -O /usr/local/bin/tcpwait \
-    https://github.com/AlphaHydrae/tcpwait/releases/download/v1.0.2/tcpwait_v1.0.2_linux_amd64 && \
+    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.0.0/tcpwait_v2.0.0_linux_amd64 && \
     chmod +x /usr/local/bin/tcpwait
   ```
 * **Linux (arm64)**
 
   ```
   wget -O /usr/local/bin/tcpwait \
-    https://github.com/AlphaHydrae/tcpwait/releases/download/v1.0.2/tcpwait_v1.0.2_linux_arm64 && \
+    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.0.0/tcpwait_v2.0.0_linux_arm64 && \
     chmod +x /usr/local/bin/tcpwait
   ```
 * **macOS**
 
   ```
   wget -O /usr/local/bin/tcpwait \
-    https://github.com/AlphaHydrae/tcpwait/releases/download/v1.0.2/tcpwait_v1.0.2_darwin_amd64 && \
+    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.0.0/tcpwait_v2.0.0_darwin_amd64 && \
     chmod +x /usr/local/bin/tcpwait
   ```
 * **Windows**
 
   ```
   wget -O /usr/local/bin/tcpwait \
-    https://github.com/AlphaHydrae/tcpwait/releases/download/v1.0.2/tcpwait_v1.0.2_windows_amd64 && \
+    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.0.0/tcpwait_v2.0.0_windows_amd64 && \
     chmod +x /usr/local/bin/tcpwait
   ```
 
