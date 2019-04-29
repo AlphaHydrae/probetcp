@@ -14,7 +14,7 @@ Wait for TCP endpoints to be reachable (e.g. wait for a database in a Docker con
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-![version](https://img.shields.io/badge/Version-v2.0.0-blue.svg)
+[![version](https://img.shields.io/badge/Version-v2.1.0-blue.svg)](https://github.com/AlphaHydrae/tcpwait/releases/tag/v2.1.0)
 [![build status](https://travis-ci.org/AlphaHydrae/tcpwait.svg?branch=master)](https://travis-ci.org/AlphaHydrae/tcpwait)
 [![license](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
 
@@ -61,35 +61,35 @@ brew install alphahydrae/tools/tcpwait
 
   ```
   RUN wget -O /usr/local/bin/tcpwait \
-    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.0.0/tcpwait_v2.0.0_linux_amd64 && \
+    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.1.0/tcpwait_v2.1.0_linux_amd64 && \
     chmod +x /usr/local/bin/tcpwait
   ```
 * **Linux**
 
   ```
   wget -O /usr/local/bin/tcpwait \
-    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.0.0/tcpwait_v2.0.0_linux_amd64 && \
+    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.1.0/tcpwait_v2.1.0_linux_amd64 && \
     chmod +x /usr/local/bin/tcpwait
   ```
 * **Linux (arm64)**
 
   ```
   wget -O /usr/local/bin/tcpwait \
-    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.0.0/tcpwait_v2.0.0_linux_arm64 && \
+    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.1.0/tcpwait_v2.1.0_linux_arm64 && \
     chmod +x /usr/local/bin/tcpwait
   ```
 * **macOS**
 
   ```
   wget -O /usr/local/bin/tcpwait \
-    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.0.0/tcpwait_v2.0.0_darwin_amd64 && \
+    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.1.0/tcpwait_v2.1.0_darwin_amd64 && \
     chmod +x /usr/local/bin/tcpwait
   ```
 * **Windows**
 
   ```
   wget -O /usr/local/bin/tcpwait \
-    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.0.0/tcpwait_v2.0.0_windows_amd64 && \
+    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.1.0/tcpwait_v2.1.0_windows_amd64 && \
     chmod +x /usr/local/bin/tcpwait
   ```
 
