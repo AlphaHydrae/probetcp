@@ -1,4 +1,4 @@
-// The probetcp command checks whether a TCP endpoint can be reached.
+// The tcpwait command checks whether a TCP endpoint can be reached.
 package main
 
 import (
@@ -7,25 +7,25 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/alphahydrae/probetcp/tcp"
+	"github.com/alphahydrae/tcpwait/tcp"
 	"github.com/fatih/color"
 	flag "github.com/spf13/pflag"
 )
 
-const usageHeader = `%s probes TCP endpoints.
+const usageHeader = `%s waits for TCP endpoints to be reachable.
 
 Usage:
-  %s [OPTION...] TARGET
+  %s [OPTION...] ENDPOINT
 
 Options:
 `
 
 const usageFooter = `
 Examples:
-  Probe a website over TCP:
-    probetcp google.com:80
-  Probe a MySQL database over TCP (10 attempts every 2 seconds):
-    probetcp -r 9 -i 2000 tcp://localhost:3306
+  Wait for a website:
+    tcpwait google.com:80
+  Wait for a MySQL database (10 attempts every 2 seconds):
+    tcpwait -r 9 -i 2000 tcp://localhost:3306
 `
 
 const tcpTargetRegexp = "^(?:tcp:\\/\\/)?(.+)$"
@@ -39,8 +39,8 @@ func main() {
 
 	flag.CommandLine.SetOutput(os.Stdout)
 
-	flag.IntVarP(&interval, "interval", "i", 1e3, "Time to wait between probe retries in milliseconds")
-	flag.IntVarP(&retries, "retries", "r", 0, "Number of times to retry to probe the target if it fails (default 0)")
+	flag.IntVarP(&interval, "interval", "i", 1e3, "Time to wait between retries in milliseconds")
+	flag.IntVarP(&retries, "retries", "r", 0, "Number of times to retry to reach the endpoint if it fails (default 0)")
 	flag.BoolVarP(&quiet, "quiet", "q", false, "Do not print anything (default false)")
 	flag.IntVarP(&timeout, "timeout", "t", 60e3, "TCP connection timeout in milliseconds")
 
@@ -52,7 +52,7 @@ func main() {
 
 	flag.Parse()
 
-	target := flag.Arg(0)
+	endpoint := flag.Arg(0)
 
 	if interval < 0 {
 		fail(quiet, "the \"interval\" option must be greater than or equal to zero")
@@ -60,32 +60,32 @@ func main() {
 		fail(quiet, "the \"retries\" option must be greater than or equal to zero")
 	} else if timeout <= 0 {
 		fail(quiet, "the \"timeout\" option must be greater than zero")
-	} else if target == "" {
-		fail(quiet, "a target to probe must be given as an argument (e.g. \"tcp://localhost:3306\")")
+	} else if endpoint == "" {
+		fail(quiet, "an endpoint to wait for must be given as an argument (e.g. \"tcp://localhost:3306\")")
 	}
 
 	tcpRegexp := regexp.MustCompile(tcpTargetRegexp)
 
-	config := &tcp.ProbeConfig{}
-	config.Address = tcpRegexp.ReplaceAllString(target, "$1")
+	config := &tcp.WaitConfig{}
+	config.Address = tcpRegexp.ReplaceAllString(endpoint, "$1")
 	config.Interval = time.Duration(interval * 1e6)
 	config.Retries = retries
 	config.Timeout = time.Duration(timeout * 1e6)
 
-	config.OnAttempt = func(attempt int, config *tcp.ProbeConfig, _ *error) {
+	config.OnAttempt = func(attempt int, config *tcp.WaitConfig, _ *error) {
 		if attempt != 0 && !quiet {
 			fmt.Fprintf(os.Stderr, "Waiting for %s (%d)...\n", config.Address, attempt)
 		}
 	}
 
-	result, err := tcp.ProbeTCPEndpoint(config)
+	result, err := tcp.WaitTCPEndpoint(config)
 	if err != nil {
-		fail(quiet, "probe error: %s", err)
+		fail(quiet, "tcpwait error: %s", err)
 	} else if !result.Success {
-		fail(quiet, "could not probe \"%s\" after %fs", config.Address, result.Duration.Seconds())
+		fail(quiet, "could not reach \"%s\" after %fs", config.Address, result.Duration.Seconds())
 	}
 
-	succeed(quiet, "Probed \"%s\" in %fs", config.Address, result.Duration.Seconds())
+	succeed(quiet, "Reached \"%s\" in %fs", config.Address, result.Duration.Seconds())
 }
 
 func fail(quiet bool, format string, values ...interface{}) {

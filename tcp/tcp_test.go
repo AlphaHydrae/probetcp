@@ -22,16 +22,16 @@ func TestTcp(t *testing.T) {
 		}
 	}()
 
-	config := &ProbeConfig{}
+	config := &WaitConfig{}
 	config.Address = "localhost:8081"
 	config.Timeout = time.Duration(1e9)
 
-	result, err := ProbeTCPEndpoint(config)
+	result, err := WaitTCPEndpoint(config)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	if !result.Success {
-		t.Fatalf("Probe failed %v\n", result)
+		t.Fatalf("Wait failed %v\n", result)
 	}
 }
