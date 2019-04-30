@@ -1,7 +1,7 @@
 SHELL := /usr/bin/env bash
 
 test:
-	go test -v ./...
+	go test -count=1 -v ./...
 
 install:
 	dep ensure
