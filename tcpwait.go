@@ -45,7 +45,7 @@ func main() {
 
 	flag.CommandLine.SetOutput(os.Stdout)
 
-	flag.IntVarP(&interval, "interval", "i", 1e3, "Time to wait between retries in milliseconds")
+	flag.IntVarP(&interval, "interval", "i", 0, "Time to wait between retries in milliseconds (default 0)")
 	flag.IntVarP(&retries, "retries", "r", 0, "Number of times to retry to reach the endpoint if it fails (default 0)")
 	flag.BoolVarP(&quiet, "quiet", "q", false, "Do not print anything (default false)")
 	flag.IntVarP(&timeout, "timeout", "t", 60e3, "TCP connection timeout in milliseconds")

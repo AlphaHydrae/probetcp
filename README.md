@@ -29,7 +29,7 @@ Usage:
   tcpwait [OPTION...] ENDPOINT... [--] [EXEC...]
 
 Options:
-  -i, --interval int   Time to wait between retries in milliseconds (default 1000)
+  -i, --interval int   Time to wait between retries in milliseconds (default 0)
   -q, --quiet          Do not print anything (default false)
   -r, --retries int    Number of times to retry to reach the endpoint if it fails (default 0)
   -t, --timeout int    TCP connection timeout in milliseconds (default 60000)
