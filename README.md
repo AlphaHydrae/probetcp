@@ -12,7 +12,7 @@ $> tcpwait --retries 10 --timeout 1000 db.example.com:5432 -- rails server
 
 - [Installation](#installation)
   - [Dockerfile](#dockerfile)
-  - [[Homebrew][brew]](#homebrewbrew)
+  - [Homebrew](#homebrew)
   - [Download binary](#download-binary)
 - [Usage](#usage)
   - [Timeout](#timeout)
@@ -43,7 +43,7 @@ RUN wget -O /usr/local/bin/tcpwait \
   chmod +x /usr/local/bin/tcpwait
 ```
 
-### [Homebrew][brew]
+### Homebrew
 
 ```
 brew install alphahydrae/tools/tcpwait
@@ -320,7 +320,6 @@ Code | Description
 
 
 
-[brew]: https://brew.sh/
 [entrypoint]: https://docs.docker.com/engine/reference/builder/#entrypoint
 [execve]: https://linux.die.net/man/2/execve
 [interpolate]: https://github.com/buildkite/interpolate#supported-expansions
