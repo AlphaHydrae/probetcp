@@ -6,10 +6,12 @@ import (
 	"os"
 	"os/exec"
 	"regexp"
+	"strconv"
 	"syscall"
 	"time"
 
 	"github.com/alphahydrae/tcpwait/tcp"
+	"github.com/buildkite/interpolate"
 	"github.com/fatih/color"
 	flag "github.com/spf13/pflag"
 )
@@ -38,17 +40,17 @@ const tcpTargetRegexp = "^(?:tcp:\\/\\/)?(.+)$"
 
 func main() {
 
-	var interval int
-	var retries int
+	var intervalString string
+	var retriesString string
 	var quiet bool
-	var timeout int
+	var timeoutString string
 
 	flag.CommandLine.SetOutput(os.Stdout)
 
-	flag.IntVarP(&interval, "interval", "i", 0, "Time to wait between retries in milliseconds (default 0)")
-	flag.IntVarP(&retries, "retries", "r", 0, "Number of times to retry to reach the endpoint if it fails (default 0)")
+	flag.StringVarP(&intervalString, "interval", "i", "0", "Time to wait between retries in milliseconds (default 0)")
+	flag.StringVarP(&retriesString, "retries", "r", "0", "Number of times to retry to reach the endpoint if it fails (default 0)")
 	flag.BoolVarP(&quiet, "quiet", "q", false, "Do not print anything (default false)")
-	flag.IntVarP(&timeout, "timeout", "t", 60e3, "TCP connection timeout in milliseconds")
+	flag.StringVarP(&timeoutString, "timeout", "t", "1000", "TCP connection timeout in milliseconds (default 1000)")
 
 	flag.Usage = func() {
 		fmt.Printf(usageHeader, os.Args[0], os.Args[0])
@@ -57,6 +59,10 @@ func main() {
 	}
 
 	flag.Parse()
+
+	interval := parseUint64Option(intervalString, "interval", quiet)
+	retries := parseUint64Option(retriesString, "retries", quiet)
+	timeout := parseUint64Option(timeoutString, "timeout", quiet)
 
 	if interval < 0 {
 		fail(1, quiet, "the \"interval\" option must be greater than or equal to zero")
@@ -99,7 +105,11 @@ func main() {
 	tcpRegexp := regexp.MustCompile(tcpTargetRegexp)
 
 	for i := 0; i < len(endpoints); i++ {
-		endpoint := endpoints[i]
+
+		endpoint, err := interpolate.Interpolate(interpolate.NewSliceEnv(os.Environ()), endpoints[i])
+		if err != nil {
+			fail(4, quiet, "could not interpolate environment variables in endpoint \"%s\"", endpoints[i])
+		}
 
 		config := &tcp.WaitConfig{}
 		config.Address = tcpRegexp.ReplaceAllString(endpoint, "$1")
@@ -107,7 +117,7 @@ func main() {
 		config.Retries = retries
 		config.Timeout = time.Duration(timeout * 1e6)
 
-		config.OnAttempt = func(attempt int, config *tcp.WaitConfig, _ *error) {
+		config.OnAttempt = func(attempt uint64, config *tcp.WaitConfig, _ *error) {
 			if attempt != 0 && !quiet {
 				fmt.Fprintf(os.Stderr, "Waiting for %s (%d)...\n", config.Address, attempt)
 			}
@@ -133,6 +143,21 @@ func main() {
 			fail(11, quiet, "could not execute command \"%s\" with arguments %s", execCommand, execArgs)
 		}
 	}
+}
+
+func parseUint64Option(value string, name string, quiet bool) uint64 {
+
+	interpolated, err := interpolate.Interpolate(interpolate.NewSliceEnv(os.Environ()), value)
+	if err != nil {
+		fail(4, quiet, "the \"%s\" option could not be interpolated", name)
+	}
+
+	parsed, err := strconv.ParseUint(interpolated, 10, 64)
+	if err != nil {
+		fail(1, quiet, "the \"%s\" option must be an unsigned 64-bit integer", name)
+	}
+
+	return parsed
 }
 
 func wait(config *tcp.WaitConfig, ch chan *waitResult) {

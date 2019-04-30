@@ -11,7 +11,7 @@ import (
 // a WaitResult if it worked, or an error if the endpoint could not be reached.
 func WaitTCPEndpoint(config *WaitConfig) (*WaitResult, error) {
 
-	attempts := 0
+	attempts := uint64(0)
 	start := time.Now()
 
 	var previousError *error
@@ -74,12 +74,12 @@ type WaitConfig struct {
 	// configuration. The third err argument is nil if all goes well, but in the
 	// case of a retry, it may contain the error that caused the previous call to
 	// fail.
-	OnAttempt func(attempt int, config *WaitConfig, err *error)
+	OnAttempt func(attempt uint64, config *WaitConfig, err *error)
 
 	// Retries indicates how many times to attempt to reach the TCP endpoint again
 	// if the first attempt fails. The wait is considered successful as soon as
 	// one attempt succeeds, regardless of previous failures.
-	Retries int
+	Retries uint64
 
 	// Timeout indicates the maximum time to wait to establish the TCP connection
 	// on each attempt.  If it takes longer, the call will time out and the
@@ -94,7 +94,7 @@ type WaitResult struct {
 	// Attempts indicates how many attempts were made to reach the endpoint.  It
 	// will be 1 by default but may be more if you specified Retries and some
 	// calls failed.
-	Attempts int
+	Attempts uint64
 
 	// Connection is the TCP connection that was established.
 	Connection net.Conn

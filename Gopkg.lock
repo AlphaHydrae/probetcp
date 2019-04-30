@@ -2,6 +2,14 @@
 
 
 [[projects]]
+  branch = "master"
+  digest = "1:c6872fbc5399e91e4854bd32e842998722ed8419a82aa8a6aaeaad9068fcd0af"
+  name = "github.com/buildkite/interpolate"
+  packages = ["."]
+  pruneopts = ""
+  revision = "973457fa2b4c81e6b755ac41509d41f18027ca77"
+
+[[projects]]
   digest = "1:e988ed0ca0d81f4d28772760c02ee95084961311291bdfefc1b04617c178b722"
   name = "github.com/fatih/color"
   packages = ["."]
@@ -45,6 +53,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/buildkite/interpolate",
     "github.com/fatih/color",
     "github.com/spf13/pflag",
   ]
