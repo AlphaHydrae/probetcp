@@ -14,7 +14,7 @@ fi
 
 rm -fr release/${RELEASE}
 
-echo "\n${bold}○ Building binaries...${normal}"
+printf "\n${bold}○ Building binaries...${normal}\n"
 
 for version in $versions; do
   os="$(echo $version | cut -d _ -f 1)"
@@ -26,11 +26,11 @@ wait
 
 for version in $versions; do
   file="release/${RELEASE}/tcpwait_${RELEASE}_${version}"
-  echo "\n${bold}○ Compressing ${file}...${normal}\n"
+  printf "\n${bold}○ Compressing ${file}...${normal}\n\n"
   upx --ultra-brute "$file"
 done
 
-echo "\n${bold}○ Calculating digests...${normal}\n"
+printf "\n${bold}○ Calculating digests...${normal}\n\n"
 dgstore 'release/**/*'
 
 echo
