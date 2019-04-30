@@ -27,7 +27,7 @@ $> tcpwait --retries 10 --timeout 1000 db.example.com:5432 -- rails server
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-[![version](https://img.shields.io/badge/Version-v2.1.0-blue.svg)](https://github.com/AlphaHydrae/tcpwait/releases/tag/v2.1.0)
+[![version](https://img.shields.io/badge/Version-v2.2.0-blue.svg)](https://github.com/AlphaHydrae/tcpwait/releases/tag/v2.2.0)
 [![build status](https://travis-ci.org/AlphaHydrae/tcpwait.svg?branch=master)](https://travis-ci.org/AlphaHydrae/tcpwait)
 [![license](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
 
@@ -39,7 +39,7 @@ $> tcpwait --retries 10 --timeout 1000 db.example.com:5432 -- rails server
 
 ```
 RUN wget -O /usr/local/bin/tcpwait \
-  https://github.com/AlphaHydrae/tcpwait/releases/download/v2.1.0/tcpwait_v2.1.0_linux_amd64 && \
+  https://github.com/AlphaHydrae/tcpwait/releases/download/v2.2.0/tcpwait_v2.2.0_linux_amd64 && \
   chmod +x /usr/local/bin/tcpwait
 ```
 
@@ -55,28 +55,28 @@ brew install alphahydrae/tools/tcpwait
 
   ```
   wget -O /usr/local/bin/tcpwait \
-    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.1.0/tcpwait_v2.1.0_linux_amd64 && \
+    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.2.0/tcpwait_v2.2.0_linux_amd64 && \
     chmod +x /usr/local/bin/tcpwait
   ```
 * **Linux (arm64)**
 
   ```
   wget -O /usr/local/bin/tcpwait \
-    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.1.0/tcpwait_v2.1.0_linux_arm64 && \
+    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.2.0/tcpwait_v2.2.0_linux_arm64 && \
     chmod +x /usr/local/bin/tcpwait
   ```
 * **macOS**
 
   ```
   wget -O /usr/local/bin/tcpwait \
-    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.1.0/tcpwait_v2.1.0_darwin_amd64 && \
+    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.2.0/tcpwait_v2.2.0_darwin_amd64 && \
     chmod +x /usr/local/bin/tcpwait
   ```
 * **Windows**
 
   ```
   wget -O /usr/local/bin/tcpwait \
-    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.1.0/tcpwait_v2.1.0_windows_amd64 && \
+    https://github.com/AlphaHydrae/tcpwait/releases/download/v2.2.0/tcpwait_v2.2.0_windows_amd64 && \
     chmod +x /usr/local/bin/tcpwait
   ```
 
