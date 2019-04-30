@@ -99,6 +99,9 @@ If the connection cannot be established, **tcpwait** will exit with a non-zero c
 ```
 $> tcpwait google.com:12345
 Error: could not reach "google.com:12345" after 1.000910s
+
+$> echo $?
+3
 ```
 
 ### Timeout
@@ -137,9 +140,9 @@ Waiting for google.com:12345 (4)...
 Error: could not reach "google.com:12345" after 5.019876s
 ```
 
-Note that the total number of attemps is equal to the number of retries plus
-one, in this example 5, because retries are made in addition to the initial
-connection attempt.
+> Note that the total number of attemps is equal to the number of retries plus
+> one, in this example 5, because retries are made in addition to the initial
+> connection attempt.
 
 The `-i, --interval <value>` option can be used to introduce a delay between
 each connection attempt:
@@ -215,9 +218,9 @@ run a Ruby on Rails application as soon as the database server can be reached:
 
     tcpwait db.example.com:5432 -- rails server
 
-Note that the command is executed with [execve] and replaces **tcpwait**'s
-process, i.e. there is no leftover **tcpwait** process once the command
-executes, even if it is long-running like a web application.
+> Note that the command is executed with [execve] and replaces **tcpwait**'s
+> process, i.e. there is no leftover **tcpwait** process once the command
+> executes, even if it is long-running like a web application.
 
 ### Environment variable interpolation
 
@@ -226,19 +229,21 @@ value of its numeric options (`-i, --interval`, `-r, --retries`, and `-t,
 --timeout`):
 
 ```
-$> tcpwait --retries '${RETRIES-3}' '${HOST-google.com}:${PORT-12345}'
+$> export TCPWAIT_HOST=google.com TCPWAIT_PORT=12345
+
+$> tcpwait --retries '${TCPWAIT_RETRIES-3}' '$TCPWAIT_HOST:$TCPWAIT_PORT'
 Waiting for google.com:12345 (1)...
 Waiting for google.com:12345 (2)...
 Waiting for google.com:12345 (3)...
 Error: could not reach "google.com:12345" after 4.011786s
 ```
 
+Supported expansions are documented in the [interpolate] library.
+
 > Note the use of single quotes. If you used double quotes or no quotes, the
 > shell would interpolate the variables before they are passed to **tcpwait**.
-> With single quotes, the string value, e.g. `${RETRIES-3}` is passed as is to
-> **tcpwait**, which does the interpolation itself.
->
-> Supported expansions are documented in the [interpolate] library.
+> With single quotes, the string value, e.g. `${TCPWAIT_RETRIES-3}` is passed as
+> is to **tcpwait**, which does the interpolation itself.
 
 #### Dockerfile
 
